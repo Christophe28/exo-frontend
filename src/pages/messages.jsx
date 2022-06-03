@@ -1,8 +1,14 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 import getData from '../functions/getFetchData';
+
+const feathers = require('@feathersjs/feathers');
+const rest = require('@feathersjs/rest-client');
+
+const app = feathers();
+
+const restClient = rest("http://localhost:3030/messages");
+
 
 const Messages = () => {
     const [allMessages, setAllMessages] = useState([]);
@@ -10,6 +16,8 @@ const Messages = () => {
     const [text, setText] = useState("");
     const [valueInputText, setValueInputText] = useState("");
 
+
+    
     useEffect(
         () => {
             getData(setAllMessages);
@@ -34,6 +42,7 @@ const Messages = () => {
         }
         return postDataFetch
     }
+
 
     return (
         <>
