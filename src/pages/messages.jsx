@@ -1,28 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
 import getData from '../functions/getFetchData';
-
-const feathers = require('@feathersjs/feathers');
-const rest = require('@feathersjs/rest-client');
-
-const app = feathers();
-
-const restClient = rest("http://localhost:3030/messages");
-
+import removeFetchData from '../functions/removeFetchData';
 
 const Messages = () => {
     const [allMessages, setAllMessages] = useState([]);
     const [name, setName] = useState("");
     const [text, setText] = useState("");
     const [valueInputText, setValueInputText] = useState("");
-
-
     
     useEffect(
         () => {
             getData(setAllMessages);
         },
-        []
+        [allMessages]
     )   
 
     const postData = async () => {
@@ -42,7 +33,6 @@ const Messages = () => {
         }
         return postDataFetch
     }
-
 
     return (
         <>
@@ -83,12 +73,24 @@ const Messages = () => {
             <section className="message">
                 <ul>
                     {allMessages.map(
-                        ({name, content, _id}) => (
+                        ({name, content, _id}, index) => (
                             <li key={_id}>
                                 <pre>
-
-                                {name}<br />
-                                {content}
+                                                                 
+                                    {name}<br />
+                                    <input 
+                                        type="button" 
+                                        value="delete"
+                                        onClick={() => {
+                                            console.log(_id)
+                                            const test = async () => {
+                                                const getId = await fetch('http://localhost:3030/messages/' + _id, {method: "DELETE"});
+                                                return getId
+                                            }
+                                            test();
+                                        }}
+                                    />     
+                                    {content}
                                 </pre>
                             </li>
                         )
