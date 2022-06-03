@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import getData from '../functions/getFetchData';
 import removeFetchData from '../functions/removeFetchData';
+import trash from './assets/pictures/corbeille.png';
 
 const Messages = () => {
     const [allMessages, setAllMessages] = useState([]);
@@ -13,7 +14,7 @@ const Messages = () => {
         () => {
             getData(setAllMessages);
         },
-        [allMessages]
+        []
     )   
 
     const postData = async () => {
@@ -75,21 +76,32 @@ const Messages = () => {
                     {allMessages.map(
                         ({name, content, _id}, index) => (
                             <li key={_id}>
-                                <pre>
-                                                                 
+                                <pre>                                            
                                     {name}<br />
                                     <input 
-                                        type="button" 
-                                        value="delete"
+                                        type="image" 
+                                        className="picture-trash-delete"
+                                        src={trash}
                                         onClick={() => {
-                                            console.log(_id)
-                                            const test = async () => {
+                                            const deleteData = async () => {
                                                 const getId = await fetch('http://localhost:3030/messages/' + _id, {method: "DELETE"});
+                                                if(getId.ok === true) {
+                                                    getData(setAllMessages);
+                                                }
                                                 return getId
                                             }
-                                            test();
+                                            deleteData();     
                                         }}
-                                    />     
+                                    />
+                                    <input 
+                                        type="button" 
+                                        value="update" 
+                                        onClick={() => {
+                                            const updateData = async () => {
+                                                const updateDataFetch = await fetch('http://localhost:3030/messages/' + _id, {method: "put"})
+                                            }
+                                        }} 
+                                    /> 
                                     {content}
                                 </pre>
                             </li>
