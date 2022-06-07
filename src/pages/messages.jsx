@@ -14,6 +14,11 @@ const Messages = () => {
     const [valueInputText, setValueInputText] = useState("");
     const [updateMessageUser, setUpdateMessageUser] = useState(false);
     const [messageToUpdate, setMessageToUpdate] = useState("");
+    const [currentTest, setCurrentTest] = useState()
+
+    window.onkeydown = (e) => {
+        e.code === "Escape" ? setUpdateMessageUser(false) : ""
+    }
 
     useEffect(
         () => {
@@ -23,11 +28,14 @@ const Messages = () => {
     )   
     
     const updateMessages = (content, id) => {
+
         if(updateMessageUser === false) {
             return (
                 <p
                     onClick={() => {
-                        setUpdateMessageUser(true);
+                        if(id) {
+                            setUpdateMessageUser(true);
+                        }
                     }}
                 >
                     {content}
@@ -53,6 +61,14 @@ const Messages = () => {
         }
     }
 
+    const test = (myState, id) => {
+        if(myState === true) {
+            const style = {
+                display: "none"
+            }
+            return style
+        }
+    }
     return (
         <>
         <div>
@@ -92,7 +108,7 @@ const Messages = () => {
             <section className="message">
                 <ul>
                     {allMessages.map(
-                        ({name, content, _id}) => (
+                        ({name, content, _id}, index) => (
                             <li key={_id}>
                                 <pre>                                            
                                     {name}<br />
@@ -104,9 +120,27 @@ const Messages = () => {
                                             removeFetchData(_id, getData, setAllMessages);
                                         }}
                                     />
-                                    {
-                                        updateMessages(content, _id)
-                                    }
+                                    <p 
+                                        // style={
+                                            
+                                        // }
+                                        onClick={(e) => {
+                                            setCurrentTest(_id);
+                                        }}
+                                    >
+                                    {content}
+                                    </p>
+                                    <input 
+                                        type="text" 
+                                        defaultValue={content}
+                                        style={test(!updateMessageUser)}
+                                        onKeyPress={(e) => {
+                                            if(e.key === "Enter") {
+                                                updateFetchData(_id, content, getData, setAllMessages);
+                                                setUpdateMessageUser(false);
+                                            }
+                                        }}
+                                    />
                                 </pre>
                             </li>
                         )
