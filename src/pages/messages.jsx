@@ -93,9 +93,7 @@ const Messages = () => {
                                             deleteData();     
                                         }}
                                     />
-                                    <input 
-                                        type="button" 
-                                        value="update" 
+                                    <p
                                         onClick={() => {
                                             const updateData = async () => {
                                                 const update = await fetch('http://localhost:3030/messages/' + _id, {
@@ -105,17 +103,18 @@ const Messages = () => {
                                                         content: "Update is ok!"
                                                     }),
                                                     headers: {
-                                                        "Content-Type" : "application/json; charset=UTF-8"
+                                                        "Content-Type": "application/json; charset=UTF-8"
                                                     }
                                                 });
                                                 if(update.ok === true) {
                                                     getData(setAllMessages);
                                                 }
                                             }
-                                            updateData()
-                                        }} 
-                                    />
-                                    {content}
+                                            updateData();
+                                        }}
+                                    >
+                                        {content}
+                                    </p>
                                 </pre>
                             </li>
                         )
