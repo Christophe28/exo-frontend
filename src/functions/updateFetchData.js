@@ -1,8 +1,8 @@
-const updateFetchData = async (id, getData, setAllMessages ) => {
+const updateFetchData = async (id, text, getData, setAllMessages ) => {
     const update = await fetch('http://localhost:3030/messages/' + id, {
         method: "PATCH",
         body: JSON.stringify({
-            content: "Update is ok!"
+            content: text
         }),
         headers: {
             "Content-Type": "application/json; charset=UTF-8"

@@ -13,7 +13,8 @@ const Messages = () => {
     const [text, setText] = useState("");
     const [valueInputText, setValueInputText] = useState("");
     const [updateMessageUser, setUpdateMessageUser] = useState(false);
-    
+    const [messageToUpdate, setMessageToUpdate] = useState("");
+
     useEffect(
         () => {
             getData(setAllMessages);
@@ -21,6 +22,37 @@ const Messages = () => {
         []
     )   
     
+    const updateMessages = (content, id) => {
+        if(updateMessageUser === false) {
+            return (
+                <p
+                    onClick={() => {
+                        setUpdateMessageUser(true);
+                    }}
+                >
+                    {content}
+                </p>
+            )
+        }
+        if(updateMessageUser === true) {
+            return(
+                <input 
+                    type="text" 
+                    defaultValue={content}
+                    onChange={(e) => {
+                        setMessageToUpdate(e.target.value)
+                    }}
+                    onKeyPress={(e) => {
+                        if(e.key === "Enter") {
+                            updateFetchData(id, messageToUpdate, getData, setAllMessages);
+                            setUpdateMessageUser(false);
+                        }
+                    }}
+                />
+            )
+        }
+    }
+
     return (
         <>
         <div>
@@ -72,13 +104,9 @@ const Messages = () => {
                                             removeFetchData(_id, getData, setAllMessages);
                                         }}
                                     />
-                                    <p
-                                        onClick={() => {
-                                            updateFetchData(_id, getData, setAllMessages);
-                                        }}
-                                    >
-                                        {content}
-                                    </p>
+                                    {
+                                        updateMessages(content, _id)
+                                    }
                                 </pre>
                             </li>
                         )
