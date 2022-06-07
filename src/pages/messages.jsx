@@ -108,6 +108,9 @@ const Messages = () => {
                                                         "Content-Type" : "application/json; charset=UTF-8"
                                                     }
                                                 });
+                                                if(update.ok === true) {
+                                                    getData(setAllMessages);
+                                                }
                                             }
                                             updateData()
                                         }} 
