@@ -8,4 +8,23 @@ body {
     .picture-trash-delete {
         width: 30px;
     }
+
+    div {
+
+        section {
+
+            li {
+
+                pre {
+
+                    p {
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

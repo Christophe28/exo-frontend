@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import getData from '../functions/getFetchData';
-import removeFetchData from '../functions/removeFetchData';
 import trash from './assets/pictures/corbeille.png';
 
 const Messages = () => {
@@ -9,6 +8,7 @@ const Messages = () => {
     const [name, setName] = useState("");
     const [text, setText] = useState("");
     const [valueInputText, setValueInputText] = useState("");
+    const [updateMessageUser, setUpdateMessageUser] = useState(false);
     
     useEffect(
         () => {
@@ -26,7 +26,7 @@ const Messages = () => {
                 content: text
             }),
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-Type": "application/json; charset=UTF-8"
             }
         })
         if(postDataFetch.ok === true) {
@@ -34,7 +34,7 @@ const Messages = () => {
         }
         return postDataFetch
     }
-
+    
     return (
         <>
         <div>
@@ -74,7 +74,7 @@ const Messages = () => {
             <section className="message">
                 <ul>
                     {allMessages.map(
-                        ({name, content, _id}, index) => (
+                        ({name, content, _id}) => (
                             <li key={_id}>
                                 <pre>                                            
                                     {name}<br />
@@ -98,10 +98,20 @@ const Messages = () => {
                                         value="update" 
                                         onClick={() => {
                                             const updateData = async () => {
-                                                const updateDataFetch = await fetch('http://localhost:3030/messages/' + _id, {method: "put"})
+                                                const update = await fetch('http://localhost:3030/messages/' + _id, {
+                                                    method: "PATCH",
+                                                    body: JSON.stringify({
+                                                        name: name,
+                                                        content: "Update is ok!"
+                                                    }),
+                                                    headers: {
+                                                        "Content-Type" : "application/json; charset=UTF-8"
+                                                    }
+                                                });
                                             }
+                                            updateData()
                                         }} 
-                                    /> 
+                                    />
                                     {content}
                                 </pre>
                             </li>
