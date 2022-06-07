@@ -8,22 +8,11 @@ body {
     .picture-trash-delete {
         width: 30px;
     }
-
-    div {
-
-        section {
-
-            li {
-
-                pre {
-
-                    p {
-                        display: inline;
-                        &:hover {
-                            cursor: pointer;
-                        }
-                    }
-                }
+    .container-update-messages {
+        p {
+            display: inline;
+            &:hover {
+                cursor: pointer
             }
         }
     }

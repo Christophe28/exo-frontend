@@ -6,6 +6,7 @@ import getData from '../functions/getFetchData';
 import postFetchData from '../functions/postFetchData';
 import removeFetchData from '../functions/removeFetchData';
 import updateFetchData from '../functions/updateFetchData';
+import updateMessage from '../functions/updateMessages';
 
 const Messages = () => {
     const [allMessages, setAllMessages] = useState([]);
@@ -14,10 +15,10 @@ const Messages = () => {
     const [valueInputText, setValueInputText] = useState("");
     const [updateMessageUser, setUpdateMessageUser] = useState(false);
     const [messageToUpdate, setMessageToUpdate] = useState("");
-    const [currentTest, setCurrentTest] = useState()
-
+    const [currentId, setCurrentId] = useState()
+    console.log(currentId);
     window.onkeydown = (e) => {
-        e.code === "Escape" ? setUpdateMessageUser(false) : ""
+        e.code === "Escape" ? setCurrentId() : ""
     }
 
     useEffect(
@@ -26,49 +27,6 @@ const Messages = () => {
         },
         []
     )   
-    
-    const updateMessages = (content, id) => {
-
-        if(updateMessageUser === false) {
-            return (
-                <p
-                    onClick={() => {
-                        if(id) {
-                            setUpdateMessageUser(true);
-                        }
-                    }}
-                >
-                    {content}
-                </p>
-            )
-        }
-        if(updateMessageUser === true) {
-            return(
-                <input 
-                    type="text" 
-                    defaultValue={content}
-                    onChange={(e) => {
-                        setMessageToUpdate(e.target.value)
-                    }}
-                    onKeyPress={(e) => {
-                        if(e.key === "Enter") {
-                            updateFetchData(id, messageToUpdate, getData, setAllMessages);
-                            setUpdateMessageUser(false);
-                        }
-                    }}
-                />
-            )
-        }
-    }
-
-    const test = (myState, id) => {
-        if(myState === true) {
-            const style = {
-                display: "none"
-            }
-            return style
-        }
-    }
     return (
         <>
         <div>
@@ -104,11 +62,12 @@ const Messages = () => {
             </form>  
         </div>
         <hr />
+        <div>
             <h1>Tous les messages</h1>
             <section className="message">
                 <ul>
                     {allMessages.map(
-                        ({name, content, _id}, index) => (
+                        ({name, content, _id}) => (
                             <li key={_id}>
                                 <pre>                                            
                                     {name}<br />
@@ -119,34 +78,27 @@ const Messages = () => {
                                         onClick={() => {
                                             removeFetchData(_id, getData, setAllMessages);
                                         }}
-                                    />
-                                    <p 
-                                        // style={
-                                            
-                                        // }
-                                        onClick={(e) => {
-                                            setCurrentTest(_id);
-                                        }}
-                                    >
-                                    {content}
-                                    </p>
-                                    <input 
-                                        type="text" 
-                                        defaultValue={content}
-                                        style={test(!updateMessageUser)}
-                                        onKeyPress={(e) => {
-                                            if(e.key === "Enter") {
-                                                updateFetchData(_id, content, getData, setAllMessages);
-                                                setUpdateMessageUser(false);
-                                            }
-                                        }}
-                                    />
+                                        />
                                 </pre>
+                                {
+                                    updateMessage(
+                                        setCurrentId,
+                                        _id, 
+                                        currentId,
+                                        content, 
+                                        setMessageToUpdate,
+                                        updateFetchData,
+                                        messageToUpdate,
+                                        getData, 
+                                        setAllMessages
+                                    )
+                                }
                             </li>
                         )
                         )}
                 </ul>
             </section>
+        </div>
            
         </>
     );
