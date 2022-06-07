@@ -18,7 +18,7 @@ body {
                 pre {
 
                     p {
-
+                        display: inline;
                         &:hover {
                             cursor: pointer;
                         }

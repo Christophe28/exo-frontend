@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-import getData from '../functions/getFetchData';
 import trash from './assets/pictures/corbeille.png';
+
+import getData from '../functions/getFetchData';
+import postFetchData from '../functions/postFetchData';
+import removeFetchData from '../functions/removeFetchData';
+import updateFetchData from '../functions/updateFetchData';
 
 const Messages = () => {
     const [allMessages, setAllMessages] = useState([]);
@@ -16,24 +20,6 @@ const Messages = () => {
         },
         []
     )   
-
-    const postData = async () => {
-        const postDataFetch = await fetch('http://localhost:3030/messages', {
-            method: 'POST',
-
-            body: JSON.stringify({
-                name: name,
-                content: text
-            }),
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8"
-            }
-        })
-        if(postDataFetch.ok === true) {
-            getData(setAllMessages);
-        }
-        return postDataFetch
-    }
     
     return (
         <>
@@ -63,7 +49,7 @@ const Messages = () => {
                     type="button" 
                     value="Envoyer" 
                     onClick={(e) => {
-                        postData();
+                        postFetchData(name, text, getData, setAllMessages);
                         setValueInputText("");
                     }}
                 />
@@ -83,34 +69,12 @@ const Messages = () => {
                                         className="picture-trash-delete"
                                         src={trash}
                                         onClick={() => {
-                                            const deleteData = async () => {
-                                                const getId = await fetch('http://localhost:3030/messages/' + _id, {method: "DELETE"});
-                                                if(getId.ok === true) {
-                                                    getData(setAllMessages);
-                                                }
-                                                return getId
-                                            }
-                                            deleteData();     
+                                            removeFetchData(_id, getData, setAllMessages);
                                         }}
                                     />
                                     <p
                                         onClick={() => {
-                                            const updateData = async () => {
-                                                const update = await fetch('http://localhost:3030/messages/' + _id, {
-                                                    method: "PATCH",
-                                                    body: JSON.stringify({
-                                                        name: name,
-                                                        content: "Update is ok!"
-                                                    }),
-                                                    headers: {
-                                                        "Content-Type": "application/json; charset=UTF-8"
-                                                    }
-                                                });
-                                                if(update.ok === true) {
-                                                    getData(setAllMessages);
-                                                }
-                                            }
-                                            updateData();
+                                            updateFetchData(_id, getData, setAllMessages);
                                         }}
                                     >
                                         {content}
