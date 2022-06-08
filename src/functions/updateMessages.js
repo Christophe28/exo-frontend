@@ -1,7 +1,8 @@
 const updateMessages = (setCurrentId, id, currentId, content, setMessageToUpdate, updateFetchData, messageToUpdate, getData, setAllMessages ) => {
     return (
-        <div className="container-update-messages">
+        <>
             <p
+                className="paragraphe"
                 onClick={() => {
                     setCurrentId(id);
                 }}
@@ -31,7 +32,7 @@ const updateMessages = (setCurrentId, id, currentId, content, setMessageToUpdate
                 }
             }}
              />
-        </div>   
+        </>   
     )
 }
 

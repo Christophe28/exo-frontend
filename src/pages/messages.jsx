@@ -78,9 +78,8 @@ const Messages = () => {
                                         onClick={() => {
                                             removeFetchData(_id, getData, setAllMessages);
                                         }}
-                                        />
-                                </pre>
-                                {
+                                    />
+                                    {
                                     updateMessage(
                                         setCurrentId,
                                         _id, 
@@ -92,7 +91,9 @@ const Messages = () => {
                                         getData, 
                                         setAllMessages
                                     )
-                                }
+                                    }
+                                </pre>
+
                             </li>
                         )
                         )}
